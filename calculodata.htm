@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <link href="jquery/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="jquery/bootstrap.min.js" type="text/javascript"></script> 
+    <script src="jquery/moment.min.js" type="text/javascript"></script>
+    <script src="jquery/moment-with-locales.min.js" type="text/javascript"></script>
+
+    <script language="javascript" type="text/javascript">
+        function Numeros(e) {
+            var charCode = e.charCode ? e.charCode : e.keyCode;
+            // charCode 8 = backspace   
+            // charCode 9 = tab
+            if (charCode != 8 && charCode != 9) {
+                // charCode 48 equivale a 0   
+                // charCode 57 equivale a 9
+                if (charCode < 48 || charCode > 57) {
+                    return false;
+                }
+            }
+        }
+
+        function calculoIdade() {
+
+            var dia = (document.getElementById('txtDia').value);
+            var mes = (document.getElementById('txtMes').value);
+            var ano = (document.getElementById('txtAno').value);
+
+            if (dia == '' || dia == null) {
+                lblMsg.innerHTML = ("Campo Dia não pode ser em branco!");
+                return false;
+            }
+
+            if (mes == '' || mes == null) {
+                lblMsg.innerHTML = ("Campo Mes não pode ser em branco!");
+                return false;
+            }
+
+             if (ano == '' || ano == null) {
+                 lblMsg.innerHTML = ("Campo Ano não pode ser em branco!");
+                return false;
+            }
+
+            lblMsg.innerHTML = ("");
+
+
+            var nasc = new Date (ano, mes, dia);
+            var hoje = new Date();
+
+            
+            //usando o moment - Mas não estou usando
+            //lblIdade.innerHTML = ("Idade: " + moment(nasc, "YYYYMMDD").fromNow());
+
+            // Estou usando essa criada manualmente            
+            var anos  = idade(nasc, hoje)
+            lblIdade.innerHTML = ("Idade: " + anos);
+        }
+
+        function idade(nascimento, hoje) {
+            var diferencaAnos = hoje.getFullYear() - nascimento.getFullYear();
+            if (new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate()) <
+         new Date(hoje.getFullYear(), nascimento.getMonth(), nascimento.getDate()))
+                diferencaAnos--;
+            return diferencaAnos;
+        }
+
+    </script>
+    
+    <title></title>
+</head>
+<body>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+  Calculo de Idade
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Digite os dados para o cálculo da idade:</h4>
+      </div>
+      <div class="modal-body">
+        <table>
+            <tr>
+                <td>Dia:</td>
+                <td><input id="txtDia" type="text" maxlength="2" size=3px onkeypress="return Numeros(event)"/></td>
+                <td>(formato: dd)</td>
+            </tr>
+
+            <tr>
+                <td>Mes:</td>
+                <td><input id="txtMes" type="text" maxlength="2" size=3px onkeypress="return Numeros(event)"/></td>
+                <td>(formato: mm)</td>
+            </tr>
+
+            <tr>
+                <td>Ano:</td>
+                <td><input id="txtAno" type="text" maxlength="4" size=6px onkeypress="return Numeros(event)"/></td>
+                <td>(formato: aaaa)</td>
+            </tr>
+
+            <tr>
+              <td colspan="3" align=center>-</td>
+            </tr>
+
+             <tr>
+                
+                <td><input id="btnIdade" type="button" value="Calcular..." onclick="return calculoIdade()"/></td>
+            
+            </tr>
+
+        </table>
+        <p></p>
+
+         <label id="lblMsg" class="text-danger font-weight-bold"></label><br />
+
+        <label id="lblIdade" class="text-primary font-weight-bold"></label><br />
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
